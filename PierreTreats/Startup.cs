@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PierreTreats.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PierreTreats
 {
@@ -33,12 +34,16 @@ namespace PierreTreats
               .AddEntityFrameworkStores<PierreTreatsContext>()
               .AddDefaultTokenProviders();
 
+			services.AddDefaultIdentity<ApplicationUser>()
+							.AddRoles<IdentityRole>()
+							.AddEntityFrameworkStores<DbContext>();
+
 			services.AddAuthorization(options =>
 			{
 				options.FallbackPolicy = new AuthorizationPolicyBuilder()
 					.RequireAuthenticatedUser()
 					.Build();
-			})
+			});
 
 			services.Configure<IdentityOptions>(options =>
     	{
@@ -73,5 +78,41 @@ namespace PierreTreats
         await context.Response.WriteAsync("Hello World!");
       });
     }
+
+		public async Task CreateRoles(IServiceProvider serviceProvider)
+		{
+			var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+			var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+			string[] roleNames = { "Admin", "User" }
+			IdentityResult roleResult;
+
+			foreach (var roleName in roleNames)
+			{
+				var roleExist = await RoleManager.RoleExistsAsync(roleName);
+				if (!roleExist)
+				{
+					roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName))
+				}
+			}
+			var adminPierre = new ApplicationUser
+			{
+				UserName = "PierreIsBest"
+				Email = "PierreBiencoupe1972@fake.com"
+				FirstName = "Pierre"
+				LastName = "Biencoupe"
+				FavFood = "Baguette"
+			};
+			string pierrePass = "3cL@1r";
+			var _user = await UserManager.FindByEmailAsync("PierreBiencoupe1972@fake.com")
+
+			if(_user == null)
+			{
+				var createAdmin = await UserManager.CreateAsync(adminPierre, pierrePass);
+				if (createAdmin.Succeeded)
+				{
+					await UserManager.AddToRoleAsync(adminPierre, "Admin");
+				}
+			}
+		}
   }
 }

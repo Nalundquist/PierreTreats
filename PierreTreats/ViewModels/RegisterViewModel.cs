@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PierreTreats.ViewModels
 {
+	[AllowAnonymous]
 	public class RegisterViewModel
 	{
 		[Required]
