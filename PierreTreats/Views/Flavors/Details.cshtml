@@ -1,0 +1,26 @@
+@{
+	Layout = "_Layout";
+}
+
+@using PierreTreats.Models;
+
+@if (Model.JoinTreFla.Count == 0)
+{
+	<p>There are currently no Treats with the Flavor @Model.Name.  Perhaps add one from the @Html.ActionLink("Treats Index?", "Index", "Treats")</p>
+}
+else
+{
+	<h3>Treats with the Flavor of @Model.Name</h3>
+	<ul>
+		@foreach (var join in Model.JoinTreFla)
+		{
+			<li>@Html.ActionLink($"{join.Treats.Name}", "Details", "Treats", new {id=join.Treats.TreatId})</li>
+		}
+	</ul>
+}
+
+@using (Html.BeginForm("Delete", "Flavors"))
+{
+	@Html.Hidden("id", (int) Model.FlavorId)
+	<input type="submit" class="btn btn-primary" value="Delete Flavor" onclick="return confirm('Are you certain you would like to delete the Flavor @Model.Name?')">
+}
