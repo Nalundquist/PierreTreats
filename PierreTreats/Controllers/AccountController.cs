@@ -42,7 +42,10 @@ namespace PierreTreats.Controllers
 				await _userManager.AddClaimAsync(user, new Claim("Email", user.Email));
 				await _userManager.AddClaimAsync(user, new Claim("FirstName", user.FirstName));
 				await _userManager.AddClaimAsync(user, new Claim("LastName", user.LastName));
-				await _userManager.AddClaimAsync(user, new Claim("FavFood", user.FavFood));
+				if (user.FavFood != null)
+				{
+					await _userManager.AddClaimAsync(user, new Claim("FavFood", user.FavFood));
+				}
 				await _signInManager.SignInAsync(user, isPersistent: true);
 				return RedirectToAction("Index");
 			}

@@ -14,7 +14,7 @@ else
 	<ul>
 		@foreach (var join in Model.JoinTreFla)
 		{
-			<li>@Html.ActionLink($"{join.Treats.Name}", "Details", "Treats", new {id=join.Treats.TreatId})</li>
+			<li>@Html.ActionLink($"{join.Treat.Name}", "Details", "Treats", new {id=join.Treat.TreatId})</li>
 		}
 	</ul>
 }
