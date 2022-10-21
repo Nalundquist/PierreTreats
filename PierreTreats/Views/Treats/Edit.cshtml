@@ -1,0 +1,21 @@
+@{
+	Layout = "_Layout";
+}
+
+@model PierreTreats.Models.Treat
+
+<h3>Edit Details of @Model.Name</h3>
+
+@using (Html.BeginForm())
+{
+	@Html.HiddenFor(m => m.TreatId)
+	@Html.LabelFor(m => m.Name)
+	@Html.EditorFor(m => m.Name)
+	@Html.LabelFor(m => m.Price)
+	@Html.EditorFor(m => m.Price)
+	@Html.Label("Flavor")
+	@Html.DropDownList("FlavorId")
+	<input type="submit" value="Edit" class="btn btn-primary"/>
+}
+
+<p>@Html.ActionLink("Return to Treat Details", "Details", new {id=Model.TreatId})</p>

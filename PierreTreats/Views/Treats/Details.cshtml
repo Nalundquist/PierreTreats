@@ -1,0 +1,51 @@
+@{
+	Layout = "_Layout";
+}
+
+@using PierreTreats.Models;
+
+<h3>Details on @Model.Name</h3>
+
+<p>Price: $ @Model.Price</p>
+
+@if (Model.JoinTreFla.Count == 0)
+{
+	<p>This treat certainly has a Flavor, but it isn't in our database!  @Html.ActionLink("Add", "Create", "Flavor") an appropriate flavor or @Html.ActionLink("Edit", "Edit", new {id=Model.TreatId}) this Treat's entry to assign an existing flavor!</p>
+}
+else if (Model.JoinTreFla.Count == 1)
+{
+	<p>This Treat has the following Flavor:</p>
+	<ul>
+		<li>@Html.ActionLink($"{Model.JoinTreFla.Flavor.Name}", "Details", "Treats", new {id=Model.JoinTreFla.Flavor.FlavorId})</li>
+		@using (Html.BeginForm("DeleteFlavor", "Treats"))
+		{
+			@Html.Hidden("joinId", (int) Model.JoinTreFla.TreatFlavorId)
+			@Html.Hidden("treatId", (int) Model.TreatId)
+			<input type="submit" value="Remove Flavor" class="btn btn-primary" onclick="return confirm('Are you sure you would like to remove the @Model.JoinTreFla.Flavor.Name Flavor from @Model.Name?')"/>
+		}
+	</ul>
+}
+else
+{
+	<p>This Treat has the following Flavors:</p>
+	<ul>
+		@foreach (var join in Model.JoinTreFla)
+		{
+			<li>@Html.ActionLink($"{join.Flavor.Name}", "Details", "Flavors", new {id=join.Flavor.FlavorId})</li>
+			@using (Html.BeginForm("DeleteFlavor", "Treats"))
+			{
+				@Html.Hidden("joinId", (int) join.TreatFlavorId)
+				@Html.Hidden("treatId", (int) Model.TreatId)
+				<input type="submit" value="Remove Flavor" class="btn btn-primary" onclick="return confirm('Are you sure you would like to remove the @join.Flavor.Name Flavor from @Model.Name?')"/>
+			}
+		}
+	</ul>
+}
+@using (Html.BeginForm("Delete", "Treats"))
+{
+	@Html.Hidden("id", (int) Model.TreatId)
+	<input type="submit" value="Delete Treat" class="btn btn-primary" onclick="return confirm('Are you sure your would like to Delete @Model.Name?')"/>
+}
+
+
+<p>@Html.ActionLink("Edit this Treat's Details", "Edit", new {id=Model.TreatId})</p>
