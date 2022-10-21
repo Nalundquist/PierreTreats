@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using RecipeBox.Models;
+using PierreTreats.Models;
 using System.Threading.Tasks;
-using RecipeBox.ViewModels;
+using PierreTreats.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System;
@@ -39,7 +39,7 @@ namespace PierreTreats.Controllers
 			IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 			if (result.Succeded)
 			{
-				await _userManager.AddClaimAsync(user, new Claim("Email", user.Email))
+				await _userManager.AddClaimAsync(user, new Claim("Email", user.Email));
 				await _userManager.AddClaimAsync(user, new Claim("FirstName", user.FirstName));
 				await _userManager.AddClaimAsync(user, new Claim("LastName", user.LastName));
 				await _userManager.AddClaimAsync(user, new Claim("FavFood", user.FavFood));
@@ -48,7 +48,7 @@ namespace PierreTreats.Controllers
 			}
 			else
 			{
-				ViewBag.RegistrationFailed = "Registration Failed, please try again."
+				ViewBag.RegistrationFailed = "Registration Failed, please try again.";
 				return View();
 			}
 		}

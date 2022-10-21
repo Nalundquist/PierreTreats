@@ -12,9 +12,8 @@ namespace PierreTreats.Models
 		}
 		public int TreatId {get; set;}
 		public string Name {get; set;}
-		[Precision(14, 2)]
-		public double Price {get; set;}
+		public int Price {get; set;}
 		public virtual ApplicationUser User {get; set;}
-		public virtual Icollection<TreatFlavor> JoinTreFla {get; set;}
+		public virtual ICollection<TreatFlavor> JoinTreFla {get; set;}
 	}
 }

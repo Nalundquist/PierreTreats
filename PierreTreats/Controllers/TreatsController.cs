@@ -41,7 +41,7 @@ namespace PierreTreats.Controllers
 
 		public ActionResult Create()
 		{
-			ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name")
+			ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
 			return View();
 		}
 
@@ -106,7 +106,7 @@ namespace PierreTreats.Controllers
 		[HttpPost]
 		public ActionResult DeleteFlavor(int joinId, int treatId)
 		{
-			TreatFlavor join = _db.TreatFlavor.FirstOrDefault(j => j.TreatFlavorId == id)
+			TreatFlavor join = _db.TreatFlavor.FirstOrDefault(j => j.TreatFlavorId == id);
 			_db.TreatFlavor.Remove(join);
 			_db.SaveChanges();
 			return RedirectToAction("Details", new{id=treatId});

@@ -17,7 +17,7 @@ namespace PierreTreats.Extensions
 			return firstName?.Value;
 		}
 
-		public static string GetFirstName(this ClaimsPrincipal principal)
+		public static string GetLastName(this ClaimsPrincipal principal)
 		{
 			var lastName = principal.Claims.FirstOrDefault(c => c.Type == "LastName");
 			return lastName?.Value;

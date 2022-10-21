@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RecipeBox.Models;
+using PierreTreats.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace PierreTreats
@@ -24,3 +24,6 @@ namespace PierreTreats
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
+		}
+	}
+}
