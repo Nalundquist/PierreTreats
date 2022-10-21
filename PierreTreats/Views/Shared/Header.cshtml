@@ -1,0 +1,14 @@
+<div id="header">
+	@if (User.Identity.IsAuthenticated)
+	{
+		@using PierreTreats.Extensions;
+
+		<p>Welcome, @User.GetFirstName()</p>
+		<p>@Html.ActionLink("My Account", "Index", "Account")</p>
+	}
+	else
+	{
+		<p>@Html.ActionLink("Register Account", "Register", "Account")</p>
+		<p>@Html.ActionLink("Log In", "Login", "Account")</p>
+	}
+</div>
