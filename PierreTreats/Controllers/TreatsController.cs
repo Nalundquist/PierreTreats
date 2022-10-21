@@ -39,12 +39,14 @@ namespace PierreTreats.Controllers
 			}
 		}
 
+		[Authorize(Roles="Admin")]
 		public ActionResult Create()
 		{
 			ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
 			return View();
 		}
 
+		[Authorize(Roles="Admin")]
 		[HttpPost]
 		public ActionResult Create(Treat treat, int FlavorId)
 		{
@@ -67,6 +69,7 @@ namespace PierreTreats.Controllers
 			return View(thisTreat);
 		}
 
+		[Authorize(Roles="Admin")]
 		public ActionResult Edit(int id)
 		{
 			Treat thisTreat = _db.Treats.FirstOrDefault(t => t.TreatId == id);
@@ -74,6 +77,7 @@ namespace PierreTreats.Controllers
 			return View(thisTreat);
 		}
 
+		[Authorize(Roles="Admin")]
 		[HttpPost]
 		public ActionResult Edit(Treat treat, int FlavorId)
 		{
@@ -94,6 +98,7 @@ namespace PierreTreats.Controllers
 			return RedirectToAction("Details", new {id=treat.TreatId});
 		}
 
+		[Authorize(Roles="Admin")]
 		[HttpPost]
 		public ActionResult Delete(int id)
 		{
@@ -103,6 +108,7 @@ namespace PierreTreats.Controllers
 			return RedirectToAction("Index");
 		}
 
+		[Authorize(Roles="Admin")]
 		[HttpPost]
 		public ActionResult DeleteFlavor(int joinId, int treatId)
 		{

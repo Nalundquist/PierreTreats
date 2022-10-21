@@ -36,9 +36,9 @@ namespace PierreTreats
               .AddEntityFrameworkStores<PierreTreatsContext>()
               .AddDefaultTokenProviders();
 
-			services.AddDefaultIdentity<ApplicationUser>()
-							.AddRoles<IdentityRole>()
-							.AddEntityFrameworkStores<DbContext>();
+			// services.AddDefaultIdentity<ApplicationUser>()
+			// 				.AddRoles<IdentityRole>()
+			// 				.AddEntityFrameworkStores<DbContext>();
 
 			services.AddAuthorization(options =>
 			{
@@ -58,30 +58,7 @@ namespace PierreTreats
     	});
     }
 
-    public void Configure(IApplicationBuilder app)
-    {
-      app.UseDeveloperExceptionPage();
-
-      app.UseAuthentication();
-
-      app.UseRouting();
-
-      app.UseAuthorization();
-
-      app.UseEndpoints(routes =>
-      {
-        routes.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-      });
-
-      app.UseStaticFiles();
-      
-      app.Run(async (context) =>
-      {
-        await context.Response.WriteAsync("Hello World!");
-      });
-    }
-
-		public async Task CreateRoles(IServiceProvider serviceProvider)
+		private async Task CreateRoles(IServiceProvider serviceProvider)
 		{
 			var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 			var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -116,5 +93,32 @@ namespace PierreTreats
 				}
 			}
 		}
+
+    public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider)
+    {
+
+			CreateRoles(serviceProvider).Wait();
+
+      app.UseDeveloperExceptionPage();
+
+      app.UseAuthentication();
+
+      app.UseRouting();
+
+      app.UseAuthorization();
+
+      app.UseEndpoints(routes =>
+      {
+        routes.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+      });
+
+      app.UseStaticFiles();
+      
+      app.Run(async (context) =>
+      {
+        await context.Response.WriteAsync("Hello World!");
+      });
+    }
+
   }
 }

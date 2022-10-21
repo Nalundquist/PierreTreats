@@ -29,11 +29,13 @@ namespace PierreTreats.Controllers
 			return View(_db.Flavors.ToList());
 		}
 
+		[Authorize(Roles="Admin")]
 		public ActionResult Create()
 		{
 			return View();
 		}
 
+		[Authorize(Roles="Admin")]
 		[HttpPost]
 		public ActionResult Create(Flavor flavor)
 		{
@@ -51,6 +53,7 @@ namespace PierreTreats.Controllers
 			return View(thisFlavor);
 		}
 
+		[Authorize(Roles="Admin")]
 		[HttpPost]
 		public ActionResult Delete(int id)
 		{
