@@ -5,6 +5,12 @@ namespace PierreTreats.Extensions
 {
 	public static class ClaimsPrincipalExtension
 	{
+		public static string GetEmail(this ClaimsPrincipal principal)
+		{
+			var email = principal.Claims.FirstOrDefault(c => c.Type == "Email");
+			return email?.Value;
+		}
+
 		public static string GetFirstName(this ClaimsPrincipal principal)
 		{
 			var firstName = principal.Claims.FirstOrDefault(c => c.Type == "FirstName");
