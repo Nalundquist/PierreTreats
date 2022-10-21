@@ -1,0 +1,26 @@
+@{
+	Layout = "_Layout";
+}
+
+@using PierreTreats.Extensions;
+
+<h3>User Control Panel</h3>
+<hr />
+@if (User.Identity.IsAuthenticated)
+{
+	<p>Hello @User.GetFirstName() @User.GetLastName()</p>
+	<p>Registered Email: @User.GetEmail()</p>
+	@if (@User.GetFavFood() != null)
+	{
+		<p>Your Favorite Food: @User.GetFavFood()</p>
+	}
+	using (Html.BeginForm("Logoff", "Account"))
+	{
+		<input type="submit" class="btn btn-primary" value="Log Out"/>
+	}
+}
+else
+{
+	<p>@Html.ActionLink("Register", "Register")</p>
+	<p>@Html.ActionLink("Log In", "Login")</p>
+}
