@@ -55,12 +55,61 @@ namespace PierreTreats.Controllers
 				_db.TreatFlavor.Add(new TreatFlavor() {TreatId = treat.TreatId, FlavorId = FlavorId});
 				_db.SaveChanges();
 			}
-			return RedirectToAction("Details", new{id = treat.TreatId})
+			return RedirectToAction("Details", new{id = treat.TreatId});
 		}
 
 		public ActionResult Details(int id)
 		{
-			
+			Treat thisTreat = _db.Treats
+				.Include(t => t.JoinTreFla)
+				.ThenInclude(join => join.Treat)
+				.FirstOrDefault(t => t.TreatId == id);
+			return View(thisTreat);
+		}
+
+		public ActionResult Edit(int id)
+		{
+			Treat thisTreat = _db.Treats.FirstOrDefault(t => t.TreatId == id);
+			ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
+			return View(thisTreat);
+		}
+
+		[HttpPost]
+		public ActionResult Edit(Treat treat, int FlavorId)
+		{
+			_db.Entry(treat).State = EntityState.Modified;
+			_db.SaveChanges();
+			foreach (TreatFlavor join in _db.TreatFlavor)
+			{
+				if(treat.TreatId == join.TreatId && FlavorId == join.FlavorId)
+				{
+					return RedirectToAction("Details", new {id = treat.TreatId});
+				}
+			}
+			if (CategoryId != 0)
+			{
+				_db.TreatFlavor.Add(new TreatFlavor() {TreatId = treat.TreatId, FlavorId = FlavorId});
+				_db.SaveChanges();
+			}
+			return RedirectToAction("Details", new {id=treat.TreatId});
+		}
+
+		[HttpPost]
+		public ActionResult Delete(int id)
+		{
+			Treat thisTreat = _db.Treats.FirstOrDefault(t => t.TreatId == id);
+			_db.Treats.Remove(thisTreat);
+			_db.SaveChanges();
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+		public ActionResult DeleteFlavor(int joinId, int treatId)
+		{
+			TreatFlavor join = _db.TreatFlavor.FirstOrDefault(j => j.TreatFlavorId == id)
+			_db.TreatFlavor.Remove(join);
+			_db.SaveChanges();
+			return RedirectToAction("Details", new{id=treatId});
 		}
 	}
 }
