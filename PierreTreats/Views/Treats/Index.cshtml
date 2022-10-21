@@ -11,6 +11,8 @@
 else
 {
 	<h3>Here are all of our delicious treats!</h3>
+	<p>Sort by price ( @Html.ActionLink("Lowest", "Index", new {sortOrder = "priceAsc"}) | @Html.ActionLink("Highest", "Index", new {sortOrder = "priceDesc"}) )</p>
+	<p>Sort by @Html.ActionLink("name", "Index")</p>
 	<hr/>
 	<ul>
 		@foreach(Treat treat in Model)
