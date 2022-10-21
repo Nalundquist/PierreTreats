@@ -37,7 +37,7 @@ namespace PierreTreats.Controllers
 		{
 			var user = new ApplicationUser {UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, FavFood = model.FavFood};
 			IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-			if (result.Succeded)
+			if (result.Succeeded)
 			{
 				await _userManager.AddClaimAsync(user, new Claim("Email", user.Email));
 				await _userManager.AddClaimAsync(user, new Claim("FirstName", user.FirstName));
@@ -62,7 +62,7 @@ namespace PierreTreats.Controllers
 		public async Task<ActionResult> Login(LoginViewModel model)
 		{
 			Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, isPersistent: true, lockoutOnFailure: false);
-			if (result.Succeded)
+			if (result.Succeeded)
 			{
 				return RedirectToAction("Index");
 			}

@@ -29,13 +29,13 @@ namespace PierreTreats.Controllers
 			{
 				case "priceAsc":
 					var treatsPriceAsc = _db.Treats.OrderBy(t => t.Price).ToList();
-					return View(userTreatsPriceAsc);
+					return View(treatsPriceAsc);
 				case "priceDesc":
 					var treatsPriceDesc = _db.Treats.OrderByDescending(t => t.Price).ToList();
-					return View(userTreatsPriceDesc);
+					return View(treatsPriceDesc);
 				default:
-					var Treats = _db.Treats.OrderBy(t => t.Name).ToList();
-					return View(userTreats);
+					var treats = _db.Treats.OrderBy(t => t.Name).ToList();
+					return View(treats);
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace PierreTreats.Controllers
 					return RedirectToAction("Details", new {id = treat.TreatId});
 				}
 			}
-			if (CategoryId != 0)
+			if (FlavorId != 0)
 			{
 				_db.TreatFlavor.Add(new TreatFlavor() {TreatId = treat.TreatId, FlavorId = FlavorId});
 				_db.SaveChanges();
@@ -106,7 +106,7 @@ namespace PierreTreats.Controllers
 		[HttpPost]
 		public ActionResult DeleteFlavor(int joinId, int treatId)
 		{
-			TreatFlavor join = _db.TreatFlavor.FirstOrDefault(j => j.TreatFlavorId == id);
+			TreatFlavor join = _db.TreatFlavor.FirstOrDefault(j => j.TreatFlavorId == joinId);
 			_db.TreatFlavor.Remove(join);
 			_db.SaveChanges();
 			return RedirectToAction("Details", new{id=treatId});
