@@ -33,6 +33,13 @@ namespace PierreTreats
               .AddEntityFrameworkStores<PierreTreatsContext>()
               .AddDefaultTokenProviders();
 
+			services.AddAuthorization(options =>
+			{
+				options.FallbackPolicy = new AuthorizationPolicyBuilder()
+					.RequireAuthenticatedUser()
+					.Build();
+			})
+
 			services.Configure<IdentityOptions>(options =>
     	{
         options.Password.RequireDigit = false;
