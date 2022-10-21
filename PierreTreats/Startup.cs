@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using PierreTreats.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
+using System;
 
 namespace PierreTreats
 {
@@ -83,7 +85,7 @@ namespace PierreTreats
 		{
 			var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 			var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-			string[] roleNames = { "Admin", "User" }
+			string[] roleNames = { "Admin", "User" };
 			IdentityResult roleResult;
 
 			foreach (var roleName in roleNames)
@@ -91,19 +93,19 @@ namespace PierreTreats
 				var roleExist = await RoleManager.RoleExistsAsync(roleName);
 				if (!roleExist)
 				{
-					roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName))
+					roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
 				}
 			}
 			var adminPierre = new ApplicationUser
 			{
-				UserName = "PierreIsBest"
-				Email = "PierreBiencoupe1972@fake.com"
-				FirstName = "Pierre"
-				LastName = "Biencoupe"
+				UserName = "PierreIsBest",
+				Email = "PierreBiencoupe1972@fake.com",
+				FirstName = "Pierre",
+				LastName = "Biencoupe",
 				FavFood = "Baguette"
 			};
 			string pierrePass = "3cL@1r";
-			var _user = await UserManager.FindByEmailAsync("PierreBiencoupe1972@fake.com")
+			var _user = await UserManager.FindByEmailAsync("PierreBiencoupe1972@fake.com");
 
 			if(_user == null)
 			{
