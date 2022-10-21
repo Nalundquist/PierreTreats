@@ -77,7 +77,7 @@ namespace PierreTreats.Controllers
 		public async Task<ActionResult> Logoff()
 		{
 			await _signInManager.SignOutAsync();
-			ViewBag.LogOutSuccess = "You have logged out."
+			ViewBag.LogOutSuccess = "You have logged out.";
 			return RedirectToAction("Index");
 		}
 	}
